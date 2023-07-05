@@ -1,34 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deployment-name
+  name: deployment-1  # name of deployment
 spec:
-  replicas: 10
+  replicas: 12
   selector:
     matchLabels:
-      type: pod-name
+      app: nginx  # pod label
   template:
     metadata:
       labels:
-        type: pod-name
+        app: nginx  # pod label
     spec:
-      containers:
-        - name: container-name
-          image: image-name
-          resources:
-            limits:
-              memory: "128Mi"
-              cpu: "300m"
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: node
+        whenUnsatisfiable: DoNotSchedule
 
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: type
-                    operator: In
-                    values:
-                      - pod-name
-              topologyKey: "kubernetes.io/hostname"
-          maxSkew: 3
-          
+      containers:
+      - name: nginx-container
+        image: nginx:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+
+
