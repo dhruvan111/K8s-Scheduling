@@ -16,9 +16,9 @@ spec:
         - name: container-name
           image: image-name
           resources:
-          limits:
-            memory: "128Mi"
-            cpu: "300m"
+            limits:
+              memory: "128Mi"
+              cpu: "300m"
 
       affinity:
         podAntiAffinity:
@@ -31,3 +31,4 @@ spec:
                       - pod-name
               topologyKey: "kubernetes.io/hostname"
           maxSkew: 3
+          
