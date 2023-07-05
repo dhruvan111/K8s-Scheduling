@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-name
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      type: pod-name
+  template:
+    metadata:
+      labels:
+        type: pod-name
+    spec:
+      containers:
+        - name: container-name
+          image: image-name
+          resources:
+          limits:
+            memory: "128Mi"
+            cpu: "300m"
+
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: type
+                    operator: In
+                    values:
+                      - pod-name
+              topologyKey: "kubernetes.io/hostname"
+          maxSkew: 3
