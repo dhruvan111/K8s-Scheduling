@@ -1,0 +1,30 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: podpernodes.customresources.com
+spec:
+  group: customresources.com
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                deploymentName:
+                  type: string
+                podsPerNode:
+                  type: integer
+                replicas:
+                  type: integer
+  scope: Namespaced
+  names:
+    plural: podpernodes
+    singular: podpernode
+    kind: PodPerNode
+    shortNames:
+      - ppn

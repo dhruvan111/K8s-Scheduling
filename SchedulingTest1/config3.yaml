@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-3
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: customerCare # pod-name
+  template:
+    metadata:
+      labels:
+        app: customerCare # pod-name
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: type
+                operator: In
+                values:
+                - worker
+
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - customerCare
+            topologyKey: node-role.kubernetes.io/control-plane
+    
+      containers:
+      - name: nginx-container
+        image: nginx:latest
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+          limits:
+            cpu: "200m"
+            memory: "200Mi"
+        ports:
+        - containerPort: 80

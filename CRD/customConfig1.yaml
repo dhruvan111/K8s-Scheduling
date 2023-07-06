@@ -1,0 +1,8 @@
+apiVersion: customresources.com/v1
+kind: PodPerNode
+metadata:
+  name: pod-per-node-object
+spec:
+  deploymentName: my-deployment
+  podsPerNode: 2
+  replicas: 3
