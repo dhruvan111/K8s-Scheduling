@@ -22,16 +22,6 @@ spec:
                 values:
                 - worker
 
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - customerCare
-            topologyKey: node-role.kubernetes.io/control-plane
-    
       containers:
       - name: nginx-container
         image: nginx:latest

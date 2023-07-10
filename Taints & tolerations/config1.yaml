@@ -1,32 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deployment-1  # name of deployment
+  name: deployment-1  # deployment-name
 spec:
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels:
-      app: nginx  # pod label
+      app: billing-service  # pod-name
   template:
     metadata:
       labels:
-        app: nginx  # pod label
+        app: billing-service  # pod-name
     spec:
-      topologySpreadConstraints:
-      - maxSkew: 1
-        topologyKey: node
-        whenUnsatisfiable: DoNotSchedule
-
       containers:
       - name: nginx-container
         image: nginx:latest
         resources:
           limits:
             memory: "128Mi"
-            cpu: "700m"
-          requests:
             cpu: "500m"
         ports:
         - containerPort: 80
-
-
+      tolerations:   
+      - key: "gpu"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"

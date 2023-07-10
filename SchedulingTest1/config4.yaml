@@ -6,11 +6,11 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: customerCare4 # pod-name
+      app: customerCare # pod-name
   template:
     metadata:
       labels:
-        app: customerCare4 # pod-name
+        app: customerCare # pod-name
     spec:
       affinity:
         nodeAffinity:
